@@ -13,18 +13,18 @@ import {$createHeadingNode, $createQuoteNode} from '@lexical/rich-text';
 import {$createParagraphNode, $createTextNode, $getRoot} from 'lexical';
 import * as React from 'react';
 
-import {isDevPlayground} from './appSettings';
+// import {isDevPlayground} from './appSettings';
 import {SettingsContext, useSettings} from './context/SettingsContext';
 import {SharedAutocompleteContext} from './context/SharedAutocompleteContext';
 import {SharedHistoryContext} from './context/SharedHistoryContext';
 import Editor from './Editor';
 import logo from './images/logo.svg';
 import PlaygroundNodes from './nodes/PlaygroundNodes';
-import DocsPlugin from './plugins/DocsPlugin';
-import PasteLogPlugin from './plugins/PasteLogPlugin';
+// import DocsPlugin from './plugins/DocsPlugin';
+// import PasteLogPlugin from './plugins/PasteLogPlugin';
 import {TableContext} from './plugins/TablePlugin';
-import TestRecorderPlugin from './plugins/TestRecorderPlugin';
-import TypingPerfPlugin from './plugins/TypingPerfPlugin';
+// import TestRecorderPlugin from './plugins/TestRecorderPlugin';
+// import TypingPerfPlugin from './plugins/TypingPerfPlugin';
 import Settings from './Settings';
 import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
 
@@ -114,7 +114,7 @@ function prepopulatedRichText() {
 
 function App(): JSX.Element {
   const {
-    settings: {isCollab, emptyEditor, measureTypingPerf},
+    settings: {isCollab, emptyEditor},
   } = useSettings();
 
   const initialConfig = {
@@ -145,11 +145,10 @@ function App(): JSX.Element {
               <Editor />
             </div>
             <Settings />
-            {isDevPlayground ? <DocsPlugin /> : null}
+            {/* {isDevPlayground ? <DocsPlugin /> : null}
             {isDevPlayground ? <PasteLogPlugin /> : null}
             {isDevPlayground ? <TestRecorderPlugin /> : null}
-
-            {measureTypingPerf ? <TypingPerfPlugin /> : null}
+            {measureTypingPerf ? <TypingPerfPlugin /> : null} */}
           </SharedAutocompleteContext>
         </TableContext>
       </SharedHistoryContext>

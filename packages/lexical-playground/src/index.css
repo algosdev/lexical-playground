@@ -1170,6 +1170,10 @@ i.prettier-error {
   background-image: url(images/icons/plug-fill.svg);
 }
 
+.actions i.save {
+  background-image: url(images/icons/square-check.svg);
+}
+
 table.disable-selection {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
