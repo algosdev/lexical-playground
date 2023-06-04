@@ -1678,3 +1678,18 @@ hr.selected {
     visibility: hidden;
   }
 }
+
+.lesson-fields-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.input-field input,
+.input-field textarea,
+select {
+  background: white !important;
+}
+.row {
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: center;
+}

@@ -35,7 +35,6 @@ import {
   SPEECH_TO_TEXT_COMMAND,
   SUPPORT_SPEECH_RECOGNITION,
 } from '../SpeechToTextPlugin';
-import SaveButton from './SaveButton';
 
 async function sendEditorState(editor: LexicalEditor): Promise<void> {
   const stringifiedEditorState = JSON.stringify(editor.getEditorState());
@@ -245,7 +244,6 @@ export default function ActionsPlugin({
           <i className={connected ? 'disconnect' : 'connect'} />
         </button>
       )}
-       <SaveButton />
       {modal}
     </div>
   );

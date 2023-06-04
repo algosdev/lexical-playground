@@ -19,6 +19,7 @@ import {SharedAutocompleteContext} from './context/SharedAutocompleteContext';
 import {SharedHistoryContext} from './context/SharedHistoryContext';
 import Editor from './Editor';
 import logo from './images/logo.svg';
+import LessonFields from './LessonFields';
 import PlaygroundNodes from './nodes/PlaygroundNodes';
 // import DocsPlugin from './plugins/DocsPlugin';
 // import PasteLogPlugin from './plugins/PasteLogPlugin';
@@ -141,6 +142,7 @@ function App(): JSX.Element {
                 <img src={logo} alt="Lexical Logo" />
               </a>
             </header>
+            <LessonFields />
             <div className="editor-shell">
               <Editor />
             </div>

@@ -13,6 +13,7 @@ import * as React from 'react';
 import {createRoot} from 'react-dom/client';
 
 import App from './App';
+import FirebaseProvider from './providers/firebase/FirebaseProvider'
 
 // Handle runtime errors
 const showErrorOverlay = (err: Event) => {
@@ -34,6 +35,8 @@ window.addEventListener('unhandledrejection', ({reason}) =>
 
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
+    <FirebaseProvider>
     <App />
+    </FirebaseProvider>
   </React.StrictMode>,
 );
