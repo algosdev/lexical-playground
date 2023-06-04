@@ -18,8 +18,10 @@ import { useFirebase } from './providers/firebase/FirebaseProvider';
 
 export default function LessonFields() {
     const [editor] = useLexicalComposerContext();
-    const {createDocument, currentUser, getDocument, updateDocument} = useFirebase()
+    const {createDocument, currentUser, getDocument,getDocuments, updateDocument, getReference} = useFirebase()
     const [isLoading, setIsLoading] = React.useState(false)
+    const [categories, setCategories] = React.useState([])
+    const [quizzes, setQuizzes] = React.useState([])
     const [id] = React.useState(() => {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get('id');
@@ -38,7 +40,9 @@ export default function LessonFields() {
         e.preventDefault()
         const normalizedData = {
             ...data,
-            content: parseHTML()
+            category: getReference({collectionName: 'categories', id: data.category}),
+            content: parseHTML(),
+            quiz: getReference({collectionName: 'categories', id: data.quiz})
         }
         setIsLoading(true)
         if (id) {
@@ -73,7 +77,7 @@ export default function LessonFields() {
         getDocument({collectionName: 'lessons', id}).then(res => {
             console.log('res',res)
             const {content, ...rest} = res
-            setData(rest)
+            setData({...rest, category: rest.category?.id, quiz: rest.quiz?.id})
             editor.update(() => {
                 const parser = new DOMParser();
                 const dom = parser.parseFromString(content, 'text/html');
@@ -87,10 +91,20 @@ export default function LessonFields() {
                 // Insert them at a selection.
                 $insertNodes(nodes);
               });
-              setTimeout(() => window.scrollTo(0,0),200)
+              setTimeout(() => window.scrollTo(0,0),100)
         })
+
     }
+    getDocuments({collectionName: 'categories'}).then(res => {
+      console.log('categories',res)
+      setCategories(res)
+    })
+    getDocuments({collectionName: 'quizzes'}).then(res => {
+      console.log('quizzes',res)
+      setQuizzes(res)
+    })
       }, [currentUser])
+
 
       if (!currentUser || (id && !data.title)) {
         return (<div style={{
@@ -134,19 +148,15 @@ export default function LessonFields() {
       </div>
       <div className="row">
       <div className="input-field col s6">
-      <select id="form-select-6" name="category_id" value={data.category_id||''} className="browser-default" onChange={handleChange}>
+      <select id="form-select-6" name="category" value={data.category||''} className="browser-default" onChange={handleChange}>
     <option value="" disabled={true} selected={true}>Bo'limni tanlang</option>
-    <option value="1">Option 1</option>
-    <option value="2">Option 2</option>
-    <option value="3">Option 3</option>
+    {categories.map((category) => <option value={category.id} key={category.id}>{category.title}</option>)}
   </select>
   </div>
   <div className="input-field col s6">
-      <select id="form-select-6" name="quiz_id" value={data.quiz_id||''} className="browser-default" onChange={handleChange}>
+      <select id="form-select-6" name="quiz" value={data.quiz||''} className="browser-default" onChange={handleChange}>
     <option value="" disabled={true} selected={true}>Sinov testini tanlang</option>
-    <option value="1">Option 1</option>
-    <option value="2">Option 2</option>
-    <option value="3">Option 3</option>
+    {quizzes.map((quiz) => <option value={quiz.id} key={quiz.id}>{quiz.title}</option>)}
   </select>
   </div>
       </div>

@@ -112,6 +112,10 @@ class Firebase {
     }
   };
 
+  getReference = ({collectionName, id}) => {
+    return doc(this.firestore, collectionName, id);
+  };
+
   createDocument = async (data, {collectionName, id, shouldReturnDoc}) => {
     try {
       const payloadWithTimestamp = {
