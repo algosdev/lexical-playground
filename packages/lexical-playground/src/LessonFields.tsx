@@ -34,7 +34,7 @@ export default function LessonFields() {
         });
         return parsedHTML
       }
-      const handleChange = e => setData(old => ({...old, [e.target.name]: e.target.value}))
+      const handleChange = e => setData(old => ({...old, [e.target.name]: e.target.type === 'checkbox' ? e.target.checked:e.target.value}))
 
       const handleSubmit = (e) => {
         e.preventDefault()
@@ -42,24 +42,26 @@ export default function LessonFields() {
             ...data,
             category: getReference({collectionName: 'categories', id: data.category}),
             content: parseHTML(),
-            quiz: getReference({collectionName: 'categories', id: data.quiz})
+            is_featured: Boolean(data.is_featured),
+            quiz: getReference({collectionName: 'categories', id: data.quiz}),
+            rating:data.rating || 5
         }
         setIsLoading(true)
-        if (id) {
+        // if (id) {
 
-            updateDocument(normalizedData, {
-                collectionName:'lessons',
-                id
-            }).catch(()=>{}).finally(() => {
-                setIsLoading(false)
-            })
-        } else {
-            createDocument(normalizedData, {
-                collectionName: 'lessons'
-            }).catch(()=>{}).finally(() => {
-                setIsLoading(false)
-            })
-        }
+        //     updateDocument(normalizedData, {
+        //         collectionName:'lessons',
+        //         id
+        //     }).catch(()=>{}).finally(() => {
+        //         setIsLoading(false)
+        //     })
+        // } else {
+        //     createDocument(normalizedData, {
+        //         collectionName: 'lessons'
+        //     }).catch(()=>{}).finally(() => {
+        //         setIsLoading(false)
+        //     })
+        // }
         console.log(normalizedData)
 
 
@@ -71,7 +73,6 @@ export default function LessonFields() {
         }
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
-        console.log('currentUser',currentUser, id, urlParams)
         if (id) {
 
         getDocument({collectionName: 'lessons', id}).then(res => {
@@ -120,7 +121,7 @@ export default function LessonFields() {
     <form onSubmit={handleSubmit} className="lesson-fields-container">
           <div className="row">
           <div className="input-field col s11">
-          <h4>Darsni yaratish/o'zgartirish</h4>
+          <h4>Darsni yaratish</h4>
         </div>
         <div className="input-field col s1">
         <button className="btn waves-effect waves-light" type="submit" name="action">{isLoading ? 'Saqlanmoqda...': 'Saqlash'}</button>
@@ -128,37 +129,50 @@ export default function LessonFields() {
           </div>
       <div className="row">
         <div className="input-field col s6">
-          <input id="title" name="title" value={data.title||''} type="text" className="validate" onChange={handleChange} />
+          <input required={true} id="title" name="title" value={data.title||''} type="text" className="validate" onChange={handleChange} />
           <label htmlFor="title">Sarlavhasi</label>
         </div>
         <div className="input-field col s6">
-          <input id="cover_img" name="cover_image" value={data.cover_image||''} type="text" className="validate" onChange={handleChange} />
+          <input required={true} id="cover_img" name="cover_image" value={data.cover_image||''} type="text" className="validate" onChange={handleChange} />
           <label htmlFor="cover_img">Muqova uchun rasm</label>
         </div>
       </div>
       <div className="row">
         <div className="input-field col s6">
-          <input id="duration" name="duration" type="text" value={data.duration||''} className="validate" onChange={handleChange} />
+          <input required={true} id="duration" name="duration" type="text" value={data.duration||''} className="validate" onChange={handleChange} />
           <label htmlFor="duration">Davomiyligi (minut)</label>
         </div>
         <div className="input-field col s6">
-          <input id="order" name="order" type="text" value={data.order||''} className="validate" onChange={handleChange} />
+          <input required={true} id="order" name="order" type="text" value={data.order||''} className="validate" onChange={handleChange} />
           <label htmlFor="order">Tartib raqami</label>
         </div>
       </div>
       <div className="row">
       <div className="input-field col s6">
-      <select id="form-select-6" name="category" value={data.category||''} className="browser-default" onChange={handleChange}>
+      <select required={true} id="form-select-6" name="category" value={data.category||''} className="browser-default" onChange={handleChange}>
     <option value="" disabled={true} selected={true}>Bo'limni tanlang</option>
     {categories.map((category) => <option value={category.id} key={category.id}>{category.title}</option>)}
   </select>
   </div>
   <div className="input-field col s6">
-      <select id="form-select-6" name="quiz" value={data.quiz||''} className="browser-default" onChange={handleChange}>
+      <select required={true} id="form-select-6" name="quiz" value={data.quiz||''} className="browser-default" onChange={handleChange}>
     <option value="" disabled={true} selected={true}>Sinov testini tanlang</option>
     {quizzes.map((quiz) => <option value={quiz.id} key={quiz.id}>{quiz.title}</option>)}
   </select>
   </div>
+
+      </div>
+      <div className="row">
+        <div className="input-field col s6">
+        <div className="switch">
+    <label>
+      Tavisya qilinadimi?
+      <input type="checkbox" name="is_featured" onChange={handleChange} />
+      <span className="lever" />
+    </label>
+  </div>
+        </div>
+        <div className="input-field col s6" />
       </div>
     </form>
   )

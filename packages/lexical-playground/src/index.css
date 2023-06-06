@@ -1693,3 +1693,9 @@ select {
   margin-bottom: 10px;
   align-items: center;
 }
+.switch label {
+  width: auto;
+}
+select.browser-default {
+  height: 56px;
+}

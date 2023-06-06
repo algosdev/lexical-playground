@@ -18,7 +18,6 @@ import {SettingsContext, useSettings} from './context/SettingsContext';
 import {SharedAutocompleteContext} from './context/SharedAutocompleteContext';
 import {SharedHistoryContext} from './context/SharedHistoryContext';
 import Editor from './Editor';
-import logo from './images/logo.svg';
 import LessonFields from './LessonFields';
 import PlaygroundNodes from './nodes/PlaygroundNodes';
 // import DocsPlugin from './plugins/DocsPlugin';
@@ -137,11 +136,6 @@ function App(): JSX.Element {
       <SharedHistoryContext>
         <TableContext>
           <SharedAutocompleteContext>
-            <header>
-              <a href="https://lexical.dev" target="_blank" rel="noopener">
-                <img src={logo} alt="Lexical Logo" />
-              </a>
-            </header>
             <LessonFields />
             <div className="editor-shell">
               <Editor />
