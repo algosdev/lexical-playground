@@ -69,8 +69,8 @@ return (<FirebaseProvider>
 </ul>
 <a href="#" data-target="slide-out" className="sidenav-trigger"><i className="material-icons">menu</i></a> */}
       <Routes>
+      <Route path="/quiz" element={<Quiz />} />
   <Route path="/" element={<Lesson />} />
-  <Route path="/quiz" element={<Quiz />} />
 </Routes>
 </BrowserRouter>
 </FirebaseProvider>)
