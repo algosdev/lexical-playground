@@ -13,6 +13,7 @@ import * as React from 'react';
 import {createRoot} from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import Category from './Category';
 import logo from './images/logo.svg';
 import Lesson from './Lesson';
 import FirebaseProvider from './providers/firebase/FirebaseProvider'
@@ -70,6 +71,7 @@ return (<FirebaseProvider>
 <a href="#" data-target="slide-out" className="sidenav-trigger"><i className="material-icons">menu</i></a> */}
       <Routes>
       <Route path="/quiz" element={<Quiz />} />
+      <Route path="/category" element={<Category />} />
   <Route path="/" element={<Lesson />} />
 </Routes>
 </BrowserRouter>

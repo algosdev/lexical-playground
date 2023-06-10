@@ -48,7 +48,7 @@ const Question = ({setQuestion, data, number}) => {
     marginBottom:10,
     paddingBottom: 30
   }}>
-    <p>{number}-savol</p>
+    <p><b>{number}-savol</b></p>
    <div className="row">
         <div className="input-field col s6">
           <input required={true} type="text" value={data.title||''} className="validate" onChange={(e) => setQuestion({title: e.target.value})} />
@@ -79,7 +79,7 @@ export default function Quiz() {
     const [questions, setQuestions] = React.useState([
       {...defaultQuestionData}
     ])
-    const [id] = React.useState(() => {
+    const [id, setId] = React.useState(() => {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get('id');
     })
@@ -108,7 +108,7 @@ export default function Quiz() {
         } else {
             createDocument(normalizedData, {
                 collectionName: 'quizzes'
-            }).catch(()=>{}).finally(() => {
+            }).then(r => setId(r.id)).catch(()=>{}).finally(() => {
                 setIsLoading(false)
             })
         }
@@ -126,6 +126,9 @@ export default function Quiz() {
         if (id) {
 
         getDocument({collectionName: 'quizzes', id}).then(res => {
+          if (!res) {
+            return
+          }
             console.log('res',res)
             const {lesson,questions,title} = res
             setLesson(lesson.id)
@@ -159,10 +162,13 @@ export default function Quiz() {
 
 
   return (
-    <form onSubmit={handleSubmit} className="lesson-fields-container" style={{marginBottom: 32}}>
+    <form onSubmit={handleSubmit} className="lesson-fields-container" onInvalidCapture={(e) => console.log('res',e)} style={{marginBottom: 32}}>
           <div className="row">
-          <div className="input-field col s11">
+          <div className="input-field col s10">
           <h4>Sinov testini yaratish</h4>
+        </div>
+        <div className="input-field col s1">
+        {id && <a href={`https://web-teacher.vercel.app/quizzes/${id}`} target="_blank" className="btn waves-effect waves-light">{'Tekshirish'}</a>}
         </div>
         <div className="input-field col s1">
         <button className="btn waves-effect waves-light" type="submit" name="action">{isLoading ? 'Saqlanmoqda...': 'Saqlash'}</button>

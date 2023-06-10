@@ -22,7 +22,7 @@ export default function LessonFields() {
     const [isLoading, setIsLoading] = React.useState(false)
     const [categories, setCategories] = React.useState([])
     const [quizzes, setQuizzes] = React.useState([])
-    const [id] = React.useState(() => {
+    const [id, setId] = React.useState(() => {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get('id');
     })
@@ -43,25 +43,26 @@ export default function LessonFields() {
             category: getReference({collectionName: 'categories', id: data.category}),
             content: parseHTML(),
             is_featured: Boolean(data.is_featured),
-            quiz: getReference({collectionName: 'categories', id: data.quiz}),
-            rating:data.rating || 5
+            quiz: getReference({collectionName: 'quizzes', id: data.quiz}),
+            rating:data.rating || 5,
+            viewers: 0
         }
         setIsLoading(true)
-        // if (id) {
+        if (id) {
 
-        //     updateDocument(normalizedData, {
-        //         collectionName:'lessons',
-        //         id
-        //     }).catch(()=>{}).finally(() => {
-        //         setIsLoading(false)
-        //     })
-        // } else {
-        //     createDocument(normalizedData, {
-        //         collectionName: 'lessons'
-        //     }).catch(()=>{}).finally(() => {
-        //         setIsLoading(false)
-        //     })
-        // }
+            updateDocument(normalizedData, {
+                collectionName:'lessons',
+                id
+            }).catch(()=>{}).finally(() => {
+                setIsLoading(false)
+            })
+        } else {
+            createDocument(normalizedData, {
+                collectionName: 'lessons'
+            }).then(r => setId(r.id)).catch(()=>{}).finally(() => {
+                setIsLoading(false)
+            })
+        }
         console.log(normalizedData)
 
 
@@ -120,8 +121,14 @@ export default function LessonFields() {
   return (
     <form onSubmit={handleSubmit} className="lesson-fields-container">
           <div className="row">
-          <div className="input-field col s11">
+          <div className="input-field col s8">
           <h4>Darsni yaratish</h4>
+        </div>
+        <div className="input-field col s1">
+        {id && <a href={`https://web-teacher.vercel.app/lessons/${id}`} target="_blank" className="btn waves-effect waves-light">{'Tekshirish'}</a>}
+        </div>
+        <div className="input-field col s2">
+        <a href={window.location.origin + '/category'} target="_blank" className="btn waves-effect waves-light">Bo'lim yaratish</a>
         </div>
         <div className="input-field col s1">
         <button className="btn waves-effect waves-light" type="submit" name="action">{isLoading ? 'Saqlanmoqda...': 'Saqlash'}</button>
